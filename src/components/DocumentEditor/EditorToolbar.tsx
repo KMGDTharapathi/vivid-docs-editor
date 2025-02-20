@@ -1,3 +1,4 @@
+
 import { Editor } from '@tiptap/react';
 import { 
   Bold, 
@@ -21,6 +22,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useCallback } from 'react';
 
 interface EditorToolbarProps {
@@ -89,187 +95,257 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
 
   return (
     <div className="border-b border-editor-border bg-editor-toolbar p-2 flex flex-wrap gap-1">
-      <Toggle
-        pressed={editor.isActive('bold')}
-        onPressedChange={() => editor.chain().focus().toggleBold().run()}
-      >
-        <Bold className="h-4 w-4" />
-      </Toggle>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toggle
+            pressed={editor.isActive('bold')}
+            onPressedChange={() => editor.chain().focus().toggleBold().run()}
+          >
+            <Bold className="h-4 w-4" />
+          </Toggle>
+        </TooltipTrigger>
+        <TooltipContent>Bold (You)</TooltipContent>
+      </Tooltip>
       
-      <Toggle
-        pressed={editor.isActive('italic')}
-        onPressedChange={() => editor.chain().focus().toggleItalic().run()}
-      >
-        <Italic className="h-4 w-4" />
-      </Toggle>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toggle
+            pressed={editor.isActive('italic')}
+            onPressedChange={() => editor.chain().focus().toggleItalic().run()}
+          >
+            <Italic className="h-4 w-4" />
+          </Toggle>
+        </TooltipTrigger>
+        <TooltipContent>Italic (You)</TooltipContent>
+      </Tooltip>
       
-      <Toggle
-        pressed={editor.isActive('underline')}
-        onPressedChange={() => editor.chain().focus().toggleUnderline().run()}
-      >
-        <Underline className="h-4 w-4" />
-      </Toggle>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toggle
+            pressed={editor.isActive('underline')}
+            onPressedChange={() => editor.chain().focus().toggleUnderline().run()}
+          >
+            <Underline className="h-4 w-4" />
+          </Toggle>
+        </TooltipTrigger>
+        <TooltipContent>Underline (You)</TooltipContent>
+      </Tooltip>
 
       <div className="w-px h-6 bg-editor-border mx-1" />
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-            <Palette className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          {pageColors.map((color) => (
-            <DropdownMenuItem
-              key={color.value}
-              onClick={() => {
-                const editorElement = editor.view.dom as HTMLElement;
-                editorElement.style.backgroundColor = color.value;
-              }}
-            >
-              <div className="flex items-center gap-2">
-                <div 
-                  className="w-4 h-4 rounded border"
-                  style={{ backgroundColor: color.value }}
-                />
-                {color.name}
-              </div>
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                <Palette className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {pageColors.map((color) => (
+                <DropdownMenuItem
+                  key={color.value}
+                  onClick={() => {
+                    const editorElement = editor.view.dom as HTMLElement;
+                    editorElement.style.backgroundColor = color.value;
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <div 
+                      className="w-4 h-4 rounded border"
+                      style={{ backgroundColor: color.value }}
+                    />
+                    {color.name}
+                  </div>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </TooltipTrigger>
+        <TooltipContent>Page Color (You)</TooltipContent>
+      </Tooltip>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-            <Type className="h-4 w-4" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          {fontColors.map((color) => (
-            <DropdownMenuItem
-              key={color.value}
-              onClick={() => {
-                editor.chain().focus().setColor(color.value).run();
-              }}
-            >
-              <div className="flex items-center gap-2">
-                <div 
-                  className="w-4 h-4 rounded border"
-                  style={{ backgroundColor: color.value }}
-                />
-                {color.name}
-              </div>
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                <Type className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {fontColors.map((color) => (
+                <DropdownMenuItem
+                  key={color.value}
+                  onClick={() => {
+                    editor.chain().focus().setColor(color.value).run();
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <div 
+                      className="w-4 h-4 rounded border"
+                      style={{ backgroundColor: color.value }}
+                    />
+                    {color.name}
+                  </div>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </TooltipTrigger>
+        <TooltipContent>Text Color (You)</TooltipContent>
+      </Tooltip>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 relative">
-            <Type className="h-4 w-4" />
-            <div className="absolute bottom-0 right-0 w-2 h-2 bg-yellow-200 rounded-full" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          {highlightColors.map((color) => (
-            <DropdownMenuItem
-              key={color.value}
-              onClick={() => {
-                editor.chain().focus().toggleHighlight({ color: color.value }).run();
-              }}
-            >
-              <div className="flex items-center gap-2">
-                <div 
-                  className="w-4 h-4 rounded border"
-                  style={{ backgroundColor: color.value }}
-                />
-                {color.name}
-              </div>
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="h-8 w-8 p-0 relative">
+                <Type className="h-4 w-4" />
+                <div className="absolute bottom-0 right-0 w-2 h-2 bg-yellow-200 rounded-full" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {highlightColors.map((color) => (
+                <DropdownMenuItem
+                  key={color.value}
+                  onClick={() => {
+                    editor.chain().focus().toggleHighlight({ color: color.value }).run();
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <div 
+                      className="w-4 h-4 rounded border"
+                      style={{ backgroundColor: color.value }}
+                    />
+                    {color.name}
+                  </div>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </TooltipTrigger>
+        <TooltipContent>Highlight (You)</TooltipContent>
+      </Tooltip>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="sm" className="h-8">
-            Font
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          {fontFamilies.map((font) => (
-            <DropdownMenuItem
-              key={font.value}
-              onClick={() => {
-                editor.chain().focus().setFontFamily(font.value).run();
-              }}
-            >
-              <span style={{ fontFamily: font.value }}>{font.name}</span>
-            </DropdownMenuItem>
-          ))}
-        </DropdownMenuContent>
-      </DropdownMenu>
-
-      <div className="w-px h-6 bg-editor-border mx-1" />
-
-      <Toggle
-        pressed={editor.isActive({ textAlign: 'left' })}
-        onPressedChange={() => editor.chain().focus().setTextAlign('left').run()}
-      >
-        <AlignLeft className="h-4 w-4" />
-      </Toggle>
-      
-      <Toggle
-        pressed={editor.isActive({ textAlign: 'center' })}
-        onPressedChange={() => editor.chain().focus().setTextAlign('center').run()}
-      >
-        <AlignCenter className="h-4 w-4" />
-      </Toggle>
-      
-      <Toggle
-        pressed={editor.isActive({ textAlign: 'right' })}
-        onPressedChange={() => editor.chain().focus().setTextAlign('right').run()}
-      >
-        <AlignRight className="h-4 w-4" />
-      </Toggle>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="sm" className="h-8">
+                Font
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              {fontFamilies.map((font) => (
+                <DropdownMenuItem
+                  key={font.value}
+                  onClick={() => {
+                    editor.chain().focus().setFontFamily(font.value).run();
+                  }}
+                >
+                  <span style={{ fontFamily: font.value }}>{font.name}</span>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </TooltipTrigger>
+        <TooltipContent>Font Family (You)</TooltipContent>
+      </Tooltip>
 
       <div className="w-px h-6 bg-editor-border mx-1" />
 
-      <Toggle
-        pressed={editor.isActive('bulletList')}
-        onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
-      >
-        <List className="h-4 w-4" />
-      </Toggle>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toggle
+            pressed={editor.isActive({ textAlign: 'left' })}
+            onPressedChange={() => editor.chain().focus().setTextAlign('left').run()}
+          >
+            <AlignLeft className="h-4 w-4" />
+          </Toggle>
+        </TooltipTrigger>
+        <TooltipContent>Align Left (You)</TooltipContent>
+      </Tooltip>
       
-      <Toggle
-        pressed={editor.isActive('orderedList')}
-        onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
-      >
-        <ListOrdered className="h-4 w-4" />
-      </Toggle>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toggle
+            pressed={editor.isActive({ textAlign: 'center' })}
+            onPressedChange={() => editor.chain().focus().setTextAlign('center').run()}
+          >
+            <AlignCenter className="h-4 w-4" />
+          </Toggle>
+        </TooltipTrigger>
+        <TooltipContent>Align Center (You)</TooltipContent>
+      </Tooltip>
+      
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toggle
+            pressed={editor.isActive({ textAlign: 'right' })}
+            onPressedChange={() => editor.chain().focus().setTextAlign('right').run()}
+          >
+            <AlignRight className="h-4 w-4" />
+          </Toggle>
+        </TooltipTrigger>
+        <TooltipContent>Align Right (You)</TooltipContent>
+      </Tooltip>
 
       <div className="w-px h-6 bg-editor-border mx-1" />
 
-      <Button 
-        variant="ghost" 
-        size="sm" 
-        className="h-8 w-8 p-0"
-        onClick={addImage}
-      >
-        <Image className="h-4 w-4" />
-      </Button>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toggle
+            pressed={editor.isActive('bulletList')}
+            onPressedChange={() => editor.chain().focus().toggleBulletList().run()}
+          >
+            <List className="h-4 w-4" />
+          </Toggle>
+        </TooltipTrigger>
+        <TooltipContent>Bullet List (You)</TooltipContent>
+      </Tooltip>
+      
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Toggle
+            pressed={editor.isActive('orderedList')}
+            onPressedChange={() => editor.chain().focus().toggleOrderedList().run()}
+          >
+            <ListOrdered className="h-4 w-4" />
+          </Toggle>
+        </TooltipTrigger>
+        <TooltipContent>Numbered List (You)</TooltipContent>
+      </Tooltip>
 
-      <Button 
-        variant="ghost" 
-        size="sm" 
-        className="h-8 w-8 p-0"
-        onClick={setLink}
-      >
-        <Link className="h-4 w-4" />
-      </Button>
+      <div className="w-px h-6 bg-editor-border mx-1" />
+
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="h-8 w-8 p-0"
+            onClick={addImage}
+          >
+            <Image className="h-4 w-4" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>Add Image (You)</TooltipContent>
+      </Tooltip>
+
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="h-8 w-8 p-0"
+            onClick={setLink}
+          >
+            <Link className="h-4 w-4" />
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>Add Link (You)</TooltipContent>
+      </Tooltip>
     </div>
   );
 };
