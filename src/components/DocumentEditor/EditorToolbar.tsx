@@ -1,3 +1,4 @@
+
 import { Editor } from '@tiptap/react';
 import { 
   Bold, 
@@ -106,7 +107,7 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
             </Toggle>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-xs py-1">
-            Bold (You)
+            Bold
           </TooltipContent>
         </Tooltip>
         
@@ -120,7 +121,7 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
             </Toggle>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-xs py-1">
-            Italic (You)
+            Italic
           </TooltipContent>
         </Tooltip>
         
@@ -134,7 +135,7 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
             </Toggle>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-xs py-1">
-            Underline (You)
+            Underline
           </TooltipContent>
         </Tooltip>
 
@@ -170,7 +171,7 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
             </DropdownMenu>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-xs py-1">
-            Page Color (You)
+            Page Color
           </TooltipContent>
         </Tooltip>
 
@@ -203,7 +204,7 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
             </DropdownMenu>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-xs py-1">
-            Text Color (You)
+            Text Color
           </TooltipContent>
         </Tooltip>
 
@@ -237,7 +238,7 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
             </DropdownMenu>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-xs py-1">
-            Highlight (You)
+            Highlight
           </TooltipContent>
         </Tooltip>
 
@@ -264,7 +265,7 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
             </DropdownMenu>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-xs py-1">
-            Font Family (You)
+            Font Family
           </TooltipContent>
         </Tooltip>
 
@@ -280,7 +281,7 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
             </Toggle>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-xs py-1">
-            Align Left (You)
+            Align Left
           </TooltipContent>
         </Tooltip>
         
@@ -294,7 +295,7 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
             </Toggle>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-xs py-1">
-            Align Center (You)
+            Align Center
           </TooltipContent>
         </Tooltip>
         
@@ -308,7 +309,7 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
             </Toggle>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-xs py-1">
-            Align Right (You)
+            Align Right
           </TooltipContent>
         </Tooltip>
 
@@ -324,7 +325,7 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
             </Toggle>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-xs py-1">
-            Bullet List (You)
+            Bullet List
           </TooltipContent>
         </Tooltip>
         
@@ -338,7 +339,7 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
             </Toggle>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-xs py-1">
-            Numbered List (You)
+            Numbered List
           </TooltipContent>
         </Tooltip>
 
@@ -356,7 +357,7 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
             </Button>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-xs py-1">
-            Add Image (You)
+            Add Image
           </TooltipContent>
         </Tooltip>
 
@@ -372,7 +373,7 @@ const EditorToolbar = ({ editor }: EditorToolbarProps) => {
             </Button>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="text-xs py-1">
-            Add Link (You)
+            Add Link
           </TooltipContent>
         </Tooltip>
       </div>
