@@ -9,6 +9,7 @@ import TextStyle from '@tiptap/extension-text-style';
 import Color from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
 import FontFamily from '@tiptap/extension-font-family';
+import FontSize from './extensions/FontSize';
 import { useCallback, useState, KeyboardEvent } from 'react';
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -28,6 +29,8 @@ const DocumentEditor = () => {
       TextAlign.configure({
         types: ['heading', 'paragraph'],
       }),
+      TextStyle,
+      FontSize,
       Image.configure({
         HTMLAttributes: {
           class: 'rounded-lg border border-gray-200',
@@ -36,7 +39,6 @@ const DocumentEditor = () => {
       Link.configure({
         openOnClick: false,
       }),
-      TextStyle,
       Color,
       Highlight.configure({
         multicolor: true,
