@@ -1,14 +1,7 @@
 
 import { Editor } from '@tiptap/react';
-import { Bold, Italic, Underline, Type } from 'lucide-react';
-import { Button } from "@/components/ui/button";
+import { Bold, Italic, Underline } from 'lucide-react';
 import { Toggle } from "@/components/ui/toggle";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   Tooltip,
   TooltipContent,
@@ -18,13 +11,6 @@ import {
 interface TextFormattingProps {
   editor: Editor;
 }
-
-const fontSizes = [
-  { label: 'Small', value: '12px' },
-  { label: 'Normal', value: '16px' },
-  { label: 'Large', value: '20px' },
-  { label: 'Extra Large', value: '24px' },
-];
 
 const TextFormatting = ({ editor }: TextFormattingProps) => {
   return (
