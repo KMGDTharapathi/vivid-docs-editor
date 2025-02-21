@@ -20,7 +20,6 @@ import { FileText } from 'lucide-react';
 
 const DocumentEditor = () => {
   const [prompt, setPrompt] = useState('');
-  const [isProcessing, setIsProcessing] = useState(false);
   const { toast } = useToast();
   
   const editor = useEditor({
@@ -54,52 +53,26 @@ const DocumentEditor = () => {
     content: '<p>Your document preview will appear here...</p>',
   });
 
-  const handlePromptSubmit = useCallback(async () => {
+  const handlePromptSubmit = useCallback(() => {
     if (!prompt.trim()) {
       toast({
         title: "Error",
-        description: "Please enter a prompt first",
+        description: "Please enter content first",
         variant: "destructive",
       });
       return;
     }
 
-    setIsProcessing(true);
-    try {
-      // Determine if prompt needs enhancement or summarization
-      const type = prompt.split(' ').length < 20 ? 'enhance' : 'summarize';
-      
-      const response = await fetch('/api/generate-content', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prompt, type }),
-      });
+    editor?.commands.setContent(
+      `<div class="p-4 rounded-lg" style="background: linear-gradient(90deg, hsla(186, 33%, 94%, 1) 0%, hsla(216, 41%, 79%, 1) 100%)">
+        ${prompt}
+      </div>`
+    );
 
-      const data = await response.json();
-      
-      if (data.error) {
-        throw new Error(data.error);
-      }
-
-      editor?.commands.setContent(
-        `<div class="p-4 rounded-lg" style="background: linear-gradient(90deg, hsla(186, 33%, 94%, 1) 0%, hsla(216, 41%, 79%, 1) 100%)">
-          ${data.content}
-        </div>`
-      );
-
-      toast({
-        title: "Success",
-        description: `Content has been ${type}d successfully!`,
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
-    } finally {
-      setIsProcessing(false);
-    }
+    toast({
+      title: "Success",
+      description: "Content has been added to the editor!",
+    });
   }, [prompt, toast, editor]);
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
@@ -164,9 +137,9 @@ const DocumentEditor = () => {
 
         <div className="space-y-6">
           <Card className="p-4">
-            <h3 className="font-semibold mb-3">Enter Prompt</h3>
+            <h3 className="font-semibold mb-3">Enter Content</h3>
             <Textarea 
-              placeholder="Enter your prompt... Press Enter to generate content"
+              placeholder="Enter your content... Press Enter to add to editor"
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}
               onKeyDown={handleKeyDown}
@@ -175,10 +148,9 @@ const DocumentEditor = () => {
             <Button 
               onClick={handlePromptSubmit}
               className="w-full gap-2"
-              disabled={isProcessing}
             >
               <FileText className="w-4 h-4" />
-              {isProcessing ? 'Generating...' : 'Generate Content'}
+              Add to Editor
             </Button>
           </Card>
 
