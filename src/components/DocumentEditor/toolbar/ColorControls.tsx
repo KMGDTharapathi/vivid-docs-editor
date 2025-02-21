@@ -28,6 +28,13 @@ const pageColors = [
   { name: 'Soft Blue', value: '#D3E4FD' },
 ];
 
+const gradients = [
+  { name: 'Sunset', value: 'linear-gradient(90deg, hsla(24, 100%, 83%, 1) 0%, hsla(341, 91%, 68%, 1) 100%)' },
+  { name: 'Ocean', value: 'linear-gradient(90deg, hsla(186, 33%, 94%, 1) 0%, hsla(216, 41%, 79%, 1) 100%)' },
+  { name: 'Forest', value: 'linear-gradient(90deg, hsla(139, 70%, 75%, 1) 0%, hsla(63, 90%, 76%, 1) 100%)' },
+  { name: 'Lavender', value: 'linear-gradient(90deg, hsla(277, 75%, 84%, 1) 0%, hsla(297, 50%, 51%, 1) 100%)' },
+];
+
 const fontColors = [
   { name: 'Black', value: '#000000' },
   { name: 'Primary Purple', value: '#9b87f5' },
@@ -54,24 +61,39 @@ const ColorControls = ({ editor }: ColorControlsProps) => {
                 <Palette className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              {pageColors.map((color) => (
-                <DropdownMenuItem
-                  key={color.value}
-                  onClick={() => {
-                    const editorElement = editor.view.dom as HTMLElement;
-                    editorElement.style.backgroundColor = color.value;
-                  }}
-                >
-                  <div className="flex items-center gap-2">
-                    <div 
-                      className="w-4 h-4 rounded border"
+            <DropdownMenuContent className="w-64">
+              <div className="p-2">
+                <div className="mb-2 font-semibold text-sm">Solid Colors</div>
+                <div className="grid grid-cols-4 gap-1 mb-4">
+                  {pageColors.map((color) => (
+                    <button
+                      key={color.value}
+                      className="w-12 h-12 rounded border hover:scale-105 transition-transform"
                       style={{ backgroundColor: color.value }}
+                      onClick={() => {
+                        const editorElement = editor.view.dom as HTMLElement;
+                        editorElement.style.backgroundColor = color.value;
+                      }}
+                      title={color.name}
                     />
-                    {color.name}
-                  </div>
-                </DropdownMenuItem>
-              ))}
+                  ))}
+                </div>
+                <div className="mb-2 font-semibold text-sm">Gradients</div>
+                <div className="grid grid-cols-2 gap-1">
+                  {gradients.map((gradient) => (
+                    <button
+                      key={gradient.value}
+                      className="w-full h-12 rounded border hover:scale-105 transition-transform"
+                      style={{ background: gradient.value }}
+                      onClick={() => {
+                        const editorElement = editor.view.dom as HTMLElement;
+                        editorElement.style.background = gradient.value;
+                      }}
+                      title={gradient.name}
+                    />
+                  ))}
+                </div>
+              </div>
             </DropdownMenuContent>
           </DropdownMenu>
         </TooltipTrigger>
