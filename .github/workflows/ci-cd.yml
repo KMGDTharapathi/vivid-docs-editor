@@ -3,40 +3,26 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main # Trigger on pushes to the main branch
+      - main
   pull_request:
     branches:
-      - main # Trigger on pull requests targeting the main branch
+      - main
 
 jobs:
-  build-and-test:
+  build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18 # Or your preferred Node.js version
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
 
-      - name: Install dependencies
-        run: npm install
+    - name: Install dependencies
+      run: npm install
 
-      - name: Build the app
-        run: npm run build # Or your build script
-
-      - name: Run tests (if you have them)
-        run: npm test # Or your test script
-
-  deploy:
-    needs: build-and-test # Only run after build-and-test succeeds
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Deploy to your environment
-        # Add your deployment steps here
-        # Example: Deploy to a static hosting service like GitHub Pages or Netlify
-        # You'll need to configure credentials and deployment commands
-        run: echo "Deploying to production..."
+    - name: Run tests
+      run: npm test
