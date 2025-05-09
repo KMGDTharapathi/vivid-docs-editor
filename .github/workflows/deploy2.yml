@@ -1,0 +1,43 @@
+name: Multi-Environment Deployment
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        environment: [dev, staging, production]
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Load environment variables
+      run: echo "Loading ${{ matrix.environment }} environment"
+
+    - name: Set environment-specific secrets
+      run: |
+        echo "Deploying to ${{ matrix.environment }}..."
+        # Replace below with your actual deployment script
+        if [ "${{ matrix.environment }}" == "dev" ]; then
+          npm run deploy:dev
+        elif [ "${{ matrix.environment }}" == "staging" ]; then
+          npm run deploy:staging
+        elif [ "${{ matrix.environment }}" == "production" ]; then
+          npm run deploy:prod
+        fi
+      env:
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        API_KEY: ${{ secrets.API_KEY }}
