@@ -1,0 +1,53 @@
+name: Multi-Env Deploy Pipeline
+
+on:
+  push:
+    branches:
+      - dev
+      - staging
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test
+
+  deploy-dev:
+    if: github.ref == 'refs/heads/dev'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: dev
+    steps:
+      - name: Deploy to Dev
+        run: echo "Deploying to Dev..."
+
+  deploy-staging:
+    if: github.ref == 'refs/heads/staging'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - name: Deploy to Staging
+        run: echo "Deploying to Staging..."
+
+  deploy-prod:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment: prod
+    steps:
+      - name: Deploy to Production
+        run: echo "Deploying to Production..."
+
