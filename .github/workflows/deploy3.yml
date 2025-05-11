@@ -9,45 +9,58 @@ on:
 
 jobs:
   build:
+    name: Build and Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-      - name: Set up Node
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: Install Dependencies
         run: npm install
 
-      - name: Run tests
+      - name: Run Tests
         run: npm test
 
   deploy-dev:
+    name: Deploy to Development
     if: github.ref == 'refs/heads/dev'
     needs: build
     runs-on: ubuntu-latest
     environment: dev
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
       - name: Deploy to Dev
-        run: echo "Deploying to Dev..."
+        run: echo "✅ Deploying to Dev Environment..."
 
   deploy-staging:
+    name: Deploy to Staging
     if: github.ref == 'refs/heads/staging'
     needs: build
     runs-on: ubuntu-latest
     environment: staging
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
       - name: Deploy to Staging
-        run: echo "Deploying to Staging..."
+        run: echo "🚀 Deploying to Staging Environment..."
 
   deploy-prod:
+    name: Deploy to Production
     if: github.ref == 'refs/heads/main'
     needs: build
     runs-on: ubuntu-latest
     environment: prod
     steps:
-      - name: Deploy to Production
-        run: echo "Deploying to Production..."
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
+      - name: Deploy to Production
+        run: echo "🚀🚨 Deploying to Production Environment..."
