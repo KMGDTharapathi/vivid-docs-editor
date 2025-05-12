@@ -1,44 +1,18 @@
-name: Blue-Green Deployment
-
-on:
-  push:
-    branches:
-      - main
-
 jobs:
-  deploy-green:
+  build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
 
+    steps:
+      - uses: actions/checkout@v3
+
+      # Set up Node.js v20
       - name: Set up Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18.18.0'
+          node-version: '20'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
-      - name: Build the project
+      - name: Build
         run: npm run build
-
-      - name: Deploy to Green Environment
-        run: |
-          echo "Deploying to Green environment..."
-          ssh user@green-server 'cd /app && git pull && npm install && npm run start'
-
-      - name: Run smoke tests on Green
-        run: |
-          echo "Running health checks on green.myapp.com"
-          curl -f https://green.myapp.com/health
-
-  switch-traffic:
-    needs: deploy-green
-    runs-on: ubuntu-latest
-    if: success()
-    steps:
-      - name: Switch traffic to Green
-        run: |
-          echo "Switching traffic from Blue to Green"
-          ssh user@loadbalancer 'bash switch_to_green.sh'
