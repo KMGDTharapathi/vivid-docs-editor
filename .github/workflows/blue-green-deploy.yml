@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Blue-Green Deployment
 
 on:
   push:
@@ -6,42 +6,39 @@ on:
       - main
 
 jobs:
-  build:
+  deploy-green:
     runs-on: ubuntu-latest
-
     steps:
-    # Checkout code from the repository
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    # Set up Node.js with the desired version
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '18' # Specify Node.js version 18 or higher
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18.18.0'
 
-    # Install dependencies
-    - name: Install dependencies
-      run: |
-        npm install -g npm@latest
-        npm install
+      - name: Install dependencies
+        run: npm ci
 
-    # Update esbuild to version 0.25.0
-    - name: Update esbuild version
-      run: |
-        npm install esbuild@^0.25.0
+      - name: Build the project
+        run: npm run build
 
-    # Run tests (if applicable)
-    - name: Run tests
-      run: npm test
+      - name: Deploy to Green Environment
+        run: |
+          echo "Deploying to Green environment..."
+          ssh user@green-server 'cd /app && git pull && npm install && npm run start'
 
-    # Build the project
-    - name: Build project
-      run: npm run build
+      - name: Run smoke tests on Green
+        run: |
+          echo "Running health checks on green.myapp.com"
+          curl -f https://green.myapp.com/health
 
-    # Deploy (Adjust this part to your actual deployment configuration)
-    - name: Deploy
-      run: |
-        echo "Deploying the project..."
-        # Add actual deployment steps here
-
+  switch-traffic:
+    needs: deploy-green
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+      - name: Switch traffic to Green
+        run: |
+          echo "Switching traffic from Blue to Green"
+          ssh user@loadbalancer 'bash switch_to_green.sh'
